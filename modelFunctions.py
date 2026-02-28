@@ -102,6 +102,7 @@ def ask_for_missing_value_handling():
     return choice
 
 
+
 import time
 # function no. 7
 # wait for user input and clear the screen before moving to the next step
@@ -123,6 +124,7 @@ def clear_screen(num):
 
     
         
+        
 # function no. 8
 # compute the mean of each column in x_data as well as the y variable
 def compute_means(x_data, y_data):
@@ -139,6 +141,7 @@ def compute_means(x_data, y_data):
     y_mean = sum(y_data) / n
     
     return x_means, y_mean
+
 
 
 
@@ -161,6 +164,7 @@ def compute_deviations(x_data, y_data, x_means, y_mean):
 
 
 
+
 # function no. 10
 # compute for the product of x_deviation and y_deviation (x - x_mean) * (y - y_mean)
 def compute_product_of_deviations(x_deviation, y_deviation):
@@ -178,6 +182,7 @@ def compute_product_of_deviations(x_deviation, y_deviation):
 
 
 
+
 # function no. 11
 # compute for the square of x_deviation (x - x_mean)^2
 def compute_squared_x_deviation(x_deviation):
@@ -192,6 +197,7 @@ def compute_squared_x_deviation(x_deviation):
         squared_x_deviation.append(row)
 
     return squared_x_deviation
+
 
 
 
@@ -216,6 +222,7 @@ def compute_sums(product_deviation, squared_x_deviation):
 
 
 
+
 # function no. 13
 # compute for the slope (m) and intercept (y)
 # m = sum(x - x_mean)(y - y_mean) / sum(x - x_mean)^2
@@ -234,6 +241,7 @@ def compute_slope_intercept(sum_product, sum_squared_x, x_means, y_mean):
 
 
 
+
 # function no. 14
 # compute for the overall y-intercept
 # b = y_mean - (m1*x_mean1 + m2*x_mean2 + ... + mn*x_meann)
@@ -243,6 +251,7 @@ def compute_overall_intercept(slope, x_means, y_mean):
         total += slope[j] * x_means[j]
     overall_intercept = y_mean - total
     return overall_intercept
+
 
 
 
@@ -273,7 +282,7 @@ def test_manual(slope, overall_intercept, header):
         x_row.append(value)
     result = predict(x_row, slope, overall_intercept)
     print_result(result)
-    return x_row, result  # return so it can be saved
+    return x_row, result  
 
 def test_from_csv(slope, overall_intercept, header):
     filename = input("Enter the CSV filename to load test data from: ")
@@ -299,7 +308,7 @@ def test_from_csv(slope, overall_intercept, header):
         all_rows.append(x_row)
         all_results.append(result)
         print()
-    return all_rows, all_results  # return all rows and results
+    return all_rows, all_results  
 
 def test_model_with_new_data(slope, overall_intercept, header):
     clear_screen(2)
@@ -316,7 +325,6 @@ def test_model_with_new_data(slope, overall_intercept, header):
         return None, None
 
 
-    
 # function no. 16
 # ask user if they want to save the test results to a csv file
 def save_test_result(header, x_row, result, timestamp):
@@ -336,12 +344,10 @@ def save_test_result(header, x_row, result, timestamp):
 
     with open(result_filename, 'a') as f:
         if write_header:
-            # use first row to determine number of columns
             first_row = x_row[0] if isinstance(x_row[0], list) else x_row
             col_headers = ','.join(header[:len(first_row)]) + ',Prediction\n'
             f.write(col_headers)
 
-        # handle both single row and list of rows
         if isinstance(x_row[0], list):
             for row, res in zip(x_row, result):
                 row_values = ','.join([str(v) for v in row]) + f',{res}\n'
@@ -382,6 +388,7 @@ def save_slopes(slope, overall_intercept, header, y_index, timestamp):
     print(f"Feature slopes saved to '{filename}' successfully!")
     
     
+    
 # function no. 18
 # save training results to csv
 # runs the model against all training rows and saves actual vs predicted
@@ -396,12 +403,11 @@ def save_training_results(x_data, y_data, slope, overall_intercept, header, y_in
     filename = f"{base_name}_training_results_{timestamp}.csv"
 
     with open(filename, 'w') as f:
-        # write header
         x_headers = [header[j] for j in range(len(header)) if j != y_index]
         col_headers = ','.join(x_headers) + ',Actual,Predicted\n'
         f.write(col_headers)
 
-        # write each row with actual and predicted
+        # write each row with actual and predicted 
         correct = 0
         for i in range(len(x_data)):
             predicted = predict(x_data[i], slope, overall_intercept)
